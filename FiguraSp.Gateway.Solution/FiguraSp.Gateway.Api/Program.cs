@@ -2,6 +2,7 @@ using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
 using Ocelot.Cache.CacheManager;
 using FiguraSp.SharedLibrary.DependencyInjection;
+using FiguraSp.Gateway.Api.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,11 +18,10 @@ builder.Services.AddCors(options =>
     });
 });
 
-
 var app = builder.Build();
 
 app.UseCors();
 app.UseHttpsRedirection();
-//app.UseMiddleware<AttachSignatureToRequest>();
+app.UseMiddleware<RequestMiddleware>();
 app.UseOcelot().Wait();
 app.Run();
