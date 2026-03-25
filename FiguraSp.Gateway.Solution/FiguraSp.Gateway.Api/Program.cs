@@ -1,32 +1,27 @@
+using eCommerce.SharedLibrary.DependencyInjection;
+using Ocelot.DependencyInjection;
+using Ocelot.Middleware;
+using Ocelot.Cache.CacheManager;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+builder.Configuration.AddJsonFile("ocelot.json", optional: false, reloadOnChange: true);
+JwtAutchenticationScheme.AddJwtAutchenticationScheme(builder.Services, builder.Configuration);
+
+builder.Services.AddOcelot().AddCacheManager(x => x.WithDictionaryHandle());
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(builder =>
+    {
+        builder.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin();
+    });
+});
+
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
-
-app.MapGet("/weatherforecast", () =>
-{
-    var forecast = Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
-});
-
+app.UseCors();
+app.UseHttpsRedirection();
+//app.UseMiddleware<AttachSignatureToRequest>();
+app.UseOcelot().Wait();
 app.Run();
-
-internal record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}

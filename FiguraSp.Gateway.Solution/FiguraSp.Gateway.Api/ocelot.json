@@ -1,0 +1,74 @@
+{
+  "Routes": [
+    //Downstream - what ocelot can access
+    //Upstream - what user can access
+
+    //you can specify individual endpoint with individual http method
+
+    //rate limit option
+    //if its going to be a free access like riders stats check
+    //this should be off
+    //if rider creation / login / register
+    //this should be on
+
+    //file cache option
+    //if riders list to check
+    //caching should be on
+    //if login / register / add
+    //caching should be off
+    //caching can attach a header
+
+    //authentication
+    //option to put specific config value for certain authentication
+    //it is needed in case the endpoint is restricted by authorization
+
+    //RIDER 5002 api/rider
+    {
+      "DownstreamPathTemplate": "/api/rider/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5002
+        }
+      ],
+
+      //Specific endpoint
+      "UpstreamPathTemplate": "/api/rider/{everything}",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
+      "RateLimitOptions": {
+        //clients exclude -> by id
+        "ClientWhitelist": [],
+        "EnableRateLimiting": true,
+        "Period": "60s",
+        //if there will be more than limit calls within period
+        //the quota message is going to be sent back
+        "Limit": 1,
+        //how long to wait before give new access in case of limit overflow
+        "PeriodTimespan": 10
+      }
+    }
+  ],
+
+
+
+  "GlobalConfiguration": {
+    "BaseUrl": "http://localhost:5000",
+    "RateLimitOptions": {
+      // rule, partition by
+      "ClientIdHeader": "",
+      "ClientWhitelist": [ "" ],
+      // management opts
+      "EnableRateLimiting": true,
+      "EnableHeaders": true,
+      // algorithm
+      "Limit": 1,
+      "Period": "",
+      "Wait": "",
+      // extended opts
+      "StatusCode": 1,
+      "QuotaMessage": "Too many requests - check ocelot.json in FiguraSp.Gateway.Api",
+      "KeyPrefix": ""
+    }
+  }
+}
