@@ -1,12 +1,12 @@
-using eCommerce.SharedLibrary.DependencyInjection;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
 using Ocelot.Cache.CacheManager;
+using FiguraSp.SharedLibrary.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Configuration.AddJsonFile("ocelot.json", optional: false, reloadOnChange: true);
-JwtAutchenticationScheme.AddJwtAutchenticationScheme(builder.Services, builder.Configuration);
+SharedService.AddJwtSharedService(builder.Services, builder.Configuration);
 
 builder.Services.AddOcelot().AddCacheManager(x => x.WithDictionaryHandle());
 builder.Services.AddCors(options =>
