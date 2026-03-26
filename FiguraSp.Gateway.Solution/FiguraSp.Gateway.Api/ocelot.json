@@ -1,15 +1,16 @@
 {
   "GlobalConfiguration": {
-    "BaseUrl": "http://localhost:5000"
-    //"RateLimitOptions": {
-    //  "RouteKeys": [], // if undefined or empty array, opts will apply to all routes
-    //  "Limit": 1,
-    //  "Period": "30s", // ms, s, m, h, d
-    //  "Wait": "1m", // ms, s, m, h, d
-    //  "StatusCode": 429, // Too Many Requests -> standard status
-    //  "QuotaMessage": "Ocelot API calls quota exceeded! Maximum admitted {0} per {1}.", // standard template with 2 parameters
-    //  "KeyPrefix": "ocelot-rate-limiting" // for caching key
-    //}
+    "BaseUrl": "http://localhost:5000",
+    "RateLimitOptions": {
+      "RouteKeys": [], // if undefined or empty array, opts will apply to all routes
+      "Limit": 1,
+      "Period": "30s", // ms, s, m, h, d
+      "Wait": "1m", // ms, s, m, h, d
+      "StatusCode": 429, // Too Many Requests -> standard status
+      "QuotaMessage": "zjazd facet", // standard template with 2 parameters
+      "QuotaExceededMessage": "moofie kurwa zjazd",
+      "KeyPrefix": "ocelot-rate-limiting" // for caching key
+    }
   },
 
 
@@ -49,15 +50,7 @@
         }
       ],
       "UpstreamPathTemplate": "/api/user/{everything}",
-      "UpstreamHttpMethod": [ "POST" ],
-      "RateLimitOptions": {
-        "ClientWhitelist": [],
-        "Limit": 2,
-        "Period": "1m", // (milli)seconds, minutes, hours, days
-        "Wait": "20s", // (milli)seconds, minutes, hours, days
-        "StatusCode": 418, // I'm a teapot -> this is special status
-        "QuotaMessage": "Out of coffee!"
-      }
+      "UpstreamHttpMethod": [ "POST" ]
     },
 
     //USER 5001 api/user (GET)
@@ -82,9 +75,7 @@
         "EnableRateLimiting": true,
         "Period": "1m",
         "HttpStatusCode": 429,
-        "PeriodTimespan": 20,
-        "QuotaExceededMessage": "no kurwa",
-        "QuotaMessage": "wpierdol"
+        "PeriodTimespan": 20
       }
     },
 
@@ -101,17 +92,42 @@
 
       //Specific endpoint
       "UpstreamPathTemplate": "/api/rider/{everything}",
-      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
+      "UpstreamHttpMethod": [ "GET" ],
       "RateLimitOptions": {
-        //clients exclude -> by id
         "ClientWhitelist": [],
+        "Limit": 5,
         "EnableRateLimiting": true,
         "Period": "1m",
-        //if there will be more than limit calls within period
-        //the quota message is going to be sent back
-        "Limit": 1
-        //how long to wait before give new access in case of limit overflow
-        //"PeriodTimespan": 10
+        "HttpStatusCode": 429,
+        "PeriodTimespan": 20
+      }
+    },
+
+    //RIDER 5002 api/rider
+    {
+      "DownstreamPathTemplate": "/api/rider/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5002
+        }
+      ],
+
+      //Specific endpoint
+      "UpstreamPathTemplate": "/api/rider/{everything}",
+      "UpstreamHttpMethod": [ "POST", "PUT", "DELETE" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKeys": [ "Bearer" ],
+        "AllowedScopes": []
+      },
+      "RateLimitOptions": {
+        "ClientWhitelist": [],
+        "Limit": 5,
+        "EnableRateLimiting": true,
+        "Period": "1m",
+        "HttpStatusCode": 429,
+        "PeriodTimespan": 20
       }
     }
   ]
