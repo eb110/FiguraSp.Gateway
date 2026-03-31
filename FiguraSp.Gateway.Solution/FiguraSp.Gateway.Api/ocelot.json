@@ -79,6 +79,20 @@
       }
     },
 
+    //TEAM 5003 api/team
+    {
+      "DownstreamPathTemplate": "/api/team/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5003
+        }
+      ],
+      "UpstreamPathTemplate": "/api/team/{everything}",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+
     //RIDER 5002 api/rider
     {
       "DownstreamPathTemplate": "/api/rider/{everything}",
@@ -95,7 +109,7 @@
       "UpstreamHttpMethod": [ "GET" ],
       "RateLimitOptions": {
         "ClientWhitelist": [],
-        "Limit": 5,
+        "Limit": 50,
         "EnableRateLimiting": true,
         "Period": "1m",
         "HttpStatusCode": 429,
