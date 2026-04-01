@@ -93,6 +93,20 @@
       "UpstreamHttpMethod": [ "GET" ]
     },
 
+    //TEAM 5004 api/games
+    {
+      "DownstreamPathTemplate": "/api/game/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5004
+        }
+      ],
+      "UpstreamPathTemplate": "/api/game/{everything}",
+      "UpstreamHttpMethod": [ "GET", "POST" ]
+    },
+
     //RIDER 5002 api/rider
     {
       "DownstreamPathTemplate": "/api/rider/{everything}",
