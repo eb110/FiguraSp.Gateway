@@ -90,7 +90,7 @@
         }
       ],
       "UpstreamPathTemplate": "/api/team/{everything}",
-      "UpstreamHttpMethod": [ "GET" ]
+      "UpstreamHttpMethod": [ "GET", "POST" ]
     },
 
     //TEAM 5004 api/games
