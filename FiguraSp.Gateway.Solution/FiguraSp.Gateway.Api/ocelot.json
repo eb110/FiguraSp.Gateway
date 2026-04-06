@@ -107,6 +107,20 @@
       "UpstreamHttpMethod": [ "GET", "POST" ]
     },
 
+    //network 5005 api/network
+    {
+      "DownstreamPathTemplate": "/api/network/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5005
+        }
+      ],
+      "UpstreamPathTemplate": "/api/network/{everything}",
+      "UpstreamHttpMethod": [ "GET", "POST" ]
+    },
+
     //RIDER 5002 api/rider
     {
       "DownstreamPathTemplate": "/api/rider/{everything}",
