@@ -134,7 +134,7 @@
 
       //Specific endpoint
       "UpstreamPathTemplate": "/api/rider/{everything}",
-      "UpstreamHttpMethod": [ "GET" ],
+      "UpstreamHttpMethod": [ "GET", "POST" ],
       "RateLimitOptions": {
         "ClientWhitelist": [],
         "Limit": 50,
@@ -158,7 +158,7 @@
 
       //Specific endpoint
       "UpstreamPathTemplate": "/api/rider/{everything}",
-      "UpstreamHttpMethod": [ "POST", "PUT", "DELETE" ],
+      "UpstreamHttpMethod": [ "PUT", "DELETE" ],
       "AuthenticationOptions": {
         "AuthenticationProviderKeys": [ "Bearer" ],
         "AllowedScopes": []
