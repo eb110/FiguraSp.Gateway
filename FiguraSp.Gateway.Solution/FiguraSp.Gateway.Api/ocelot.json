@@ -104,7 +104,7 @@
         }
       ],
       "UpstreamPathTemplate": "/api/game/{everything}",
-      "UpstreamHttpMethod": [ "GET", "POST" ]
+      "UpstreamHttpMethod": [ "GET", "POST", "DELETE" ]
     },
 
     //network 5005 api/network
